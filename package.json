@@ -42,8 +42,9 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
-    "dotenv": "^16.4.5",
     "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
+    "https-proxy-agent": "^7.0.6",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

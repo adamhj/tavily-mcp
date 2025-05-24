@@ -4,6 +4,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {CallToolRequestSchema, ListToolsRequestSchema, Tool} from "@modelcontextprotocol/sdk/types.js";
 import axios from "axios";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import dotenv from "dotenv";
 import { McpError, ErrorCode } from "@modelcontextprotocol/sdk/types.js";
 import yargs from 'yargs';
@@ -77,12 +78,15 @@ class TavilyClient {
       }
     );
 
+    const httpProxy = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
     this.axiosInstance = axios.create({
       headers: {
         'accept': 'application/json',
         'content-type': 'application/json',
         'Authorization': `Bearer ${API_KEY}`
-      }
+      },
+      proxy: false, // Disable Axios's built-in proxy
+      httpsAgent: httpProxy ? new HttpsProxyAgent(httpProxy) : undefined,
     });
 
     this.setupHandlers();
